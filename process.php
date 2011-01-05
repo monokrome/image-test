@@ -55,11 +55,7 @@
 	function process_image($filename, $type)
 	{
 		$filename_extension = strrchr($filename, '.');
-		$filename_base = substr(
-			$filename,
-			0,
-			strlen($filename)-(strlen($filename_extension)-1)
-		);
+		$filename_base = substr($filename,0, strrpos($filename, '.', 1)+1);
 
 		$final_filename =  $filename_base . 'processed' . $filename_extension;
 		$rotation_degrees = 180.0;
