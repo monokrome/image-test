@@ -44,12 +44,12 @@
 			// 50% of original size
 		$image_resize_amount = 0.50;
 
-		return $i * $image_resize_amount;
+		return round($i * $image_resize_amount);
 	}
 
 	function get_overlay_position($i)
 	{
-		return $i / 4;
+		return round($i / 4);
 	}
 
 	function process_image($filename, $type)
