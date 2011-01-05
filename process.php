@@ -103,8 +103,6 @@
 
 		$file = fopen($final_filename, 'wb');
 
-		print $final_filename;
-
 		if ($file)
 		{
 			// TODO: Find the method to get the image data more 'properly'
