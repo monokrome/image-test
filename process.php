@@ -54,7 +54,14 @@
 
 	function process_image($filename, $type)
 	{
-		$final_filename = dirname($filename) . '.processed.' . strrchr($filename, '.');
+		$filename_extension = strrchr($filename, '.');
+		$filename_base = substr(
+			$filename,
+			0,
+			strlen($filename)-(strlen($filename_extension)-1)
+		);
+
+		$final_filename =  $filename_base . 'processed' . $filename_extension;
 		$rotation_degrees = 180.0;
 
 			// Get the size of our image and create a jpeg from it
@@ -94,7 +101,24 @@
 			get_overlay_size($image_size[HEIGHT])
 		);
 
-		header('Content-Type: ' . $image_size['mime']);
-		get_image_data($image, $type);
+		$file = fopen($final_filename, 'wb');
+
+		print $final_filename;
+
+		if ($file)
+		{
+			// TODO: Find the method to get the image data more 'properly'
+			ob_start();
+			get_image_data($image, $type);
+			$image_contents = ob_get_contents();
+			ob_end_clean();
+
+			fwrite($file, $image_contents);
+			fclose($file);
+		}
+		else
+		{
+			die('Error on file: ' . $filename);
+		}
 	}
 
