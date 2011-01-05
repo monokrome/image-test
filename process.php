@@ -21,20 +21,20 @@
 		}
 	}
 
-	function get_image_data($image, $type)
+	function get_image_data($image, $type, $filename)
 	{
 		switch ($type)
 		{
 		case 'jpeg':
-			return imagejpeg($image);
+			return imagejpeg($image, $filename);
 			break;
 
 		case 'gif':
-			return imagegif($image);
+			return imagegif($image, $filename);
 			break;
 
 		case 'png':
-			return imagepng($image);
+			return imagepng($image, $filename);
 			break;
 		}
 	}
@@ -101,22 +101,6 @@
 			get_overlay_size($image_size[HEIGHT])
 		);
 
-		$file = fopen($final_filename, 'wb');
-
-		if ($file)
-		{
-			// TODO: Find the method to get the image data more 'properly'
-			ob_start();
-			get_image_data($image, $type);
-			$image_contents = ob_get_contents();
-			ob_end_clean();
-
-			fwrite($file, $image_contents);
-			fclose($file);
-		}
-		else
-		{
-			die('Error on file: ' . $filename);
-		}
+		get_image_data($image, $type, $final_filename);
 	}
 
